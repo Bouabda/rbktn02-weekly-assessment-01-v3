@@ -28,10 +28,24 @@
   *  root1.value // still 1
   */
 
-var Tree = function(value) {
+ var Tree = function(value) {
   this.value = value;
   this.children = [];
 };
 
+Tree.prototype.addChild = function(value) { 
+  let node = new Tree(value);
+  this.children.push(node);
+  return node;
+};
 
+Tree.prototype.map = function (fn){ 
+  var newTree = new Tree(fn(this.value));
+  var depth = depth || 0;
 
+  if (this.children.length > 0){
+  for (let i = 0 ; i < this.children.length ; i++){
+    newTree.addChild(this.children[i].map(fn),depth+1);
+    }
+  }return newTree;
+};
